@@ -1,0 +1,18 @@
+<?php $lastLoginInfo = $block->getLastLoginInfo(); ?>
+<?php if ($lastLoginInfo && $lastLoginInfo->getId()) { ?>
+    <div class="block block-dashboard-info">
+        <div class="block-title">
+            <strong><?= $block->escapeHtml(__('Last Login Information')) ?></strong>
+        </div>
+        <div class="block-content">
+            <div class="box-content">
+                <p>
+                    <?= $block->escapeHtml(__('Last IP: ')) ?><?= $lastLoginInfo->getIp(); ?>
+                </p>
+                <p>
+                    <?= $block->escapeHtml(__('Last Login Date: ')) ?><?= $lastLoginInfo->getCreatedAt(); ?>
+                </p>
+            </div>
+        </div>
+    </div>
+<?php } ?>

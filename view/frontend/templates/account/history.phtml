@@ -1,0 +1,99 @@
+<?php
+/** @var \Wiserbrand\LoginHistory\Block\History $block */
+?>
+<form action="<?= $block->getUrl('customer/account/historydelete'); ?>"
+      method="post"
+      data-mage-init='{"history":{"deleteAllBtn":".delete-all","deleteSelectedBtn":".delete-selected","selectAllBtn":".history .select-all"}}'>
+    <?php $entities = $block->getEntities(); ?>
+    <?php if ($entities->count()) { ?>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button type="submit"
+                        class="action primary delete-all"
+                        title="<?= $block->escapeHtmlAttr(__('Delete All History')) ?>">
+                    <span><?= $block->escapeHtml(__('Delete All History')) ?></span>
+                </button>
+                <input type="hidden" name="delete-all" class="delete-all-input"
+                       value="0">
+            </div>
+            <div class="primary">
+                <button type="submit"
+                        class="action primary delete-selected"
+                        title="<?= $block->escapeHtmlAttr(__('Delete Selected Records')) ?>">
+                    <span><?= $block->escapeHtml(__('Delete Selected Records')) ?></span>
+                </button>
+                <input type="hidden" name="delete-selected"
+                       class="delete-selected-input" value=""/>
+            </div>
+        </div>
+    <?php } ?>
+    <?php if ($entities && count($entities)): ?>
+        <div class="table-wrapper login-history">
+            <table class="data table table-login-items history"
+                   id="my-login-history-table">
+                <caption class="table-caption"><?= /* @escapeNotVerified */
+                    __('Login History') ?></caption>
+                <thead>
+                <tr>
+                    <th scope="col"
+                        class="col number"><input class="select-all"
+                                                  type="checkbox"
+                                                  name="select-all"/></th>
+                    <th scope="col" class="col id">
+                        <?= /* @escapeNotVerified */
+                        __('ID') ?>
+                    </th>
+                    <th scope="col" class="col ip"><a
+                                href="<?= /* @escapeNotVerified */
+                                $block->getSortUrl('ip') ?>""><?= /* @escapeNotVerified */
+                        __('IP') ?></a></th>
+                    <th scope="col" class="col useragent"><a
+                                href="<?= /* @escapeNotVerified */
+                                $block->getSortUrl('user_agent') ?>"><?= /* @escapeNotVerified */
+                            __('User Agent') ?></a></th>
+                    <th scope="col"
+                        class="col location"><?= /* @escapeNotVerified */
+                        __('Location') ?></th>
+                    <th scope="col" class="col date"><a
+                                href="<?= /* @escapeNotVerified */
+                                $block->getSortUrl('created_at') ?>"><?= /* @escapeNotVerified */
+                            __('Login Date') ?></a></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($entities as $entity): ?>
+                    <tr>
+                        <td data-th="<?= $block->escapeHtml(__('Number')) ?>"
+                            class="col id"><input type="checkbox"
+                                                  class="checkbox-selection"
+                                                  name="entity-<?= $entity->getId(); ?>"
+                                                  data-id="<?= $entity->getId(); ?>"/>
+                        </td>
+                        <td data-th="<?= $block->escapeHtml(__('ID')) ?>"
+                            class="col id"><?= /* @escapeNotVerified */
+                            $entity->getId() ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('IP')) ?>"
+                            class="col ip"><?= /* @escapeNotVerified */
+                            $entity->getIp() ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('User Agent')) ?>"
+                            class="col useragent"><?= /* @escapeNotVerified */
+                            $entity->getUserAgent() ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Location')) ?>"
+                            class="col location"><?= /* @escapeNotVerified */
+                            $entity->getLocation() ?></td>
+                        <td data-th="<?= $block->escapeHtml(__('Login Date')) ?>"
+                            class="col date"><?= /* @escapeNotVerified */
+                            $entity->getCreatedAt() ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <?php if ($block->getPagerHtml()): ?>
+            <div class="toolbar bottom"><?= $block->getPagerHtml() ?></div>
+        <?php endif ?>
+    <?php else: ?>
+        <div class="message info empty"><span><?= /* @escapeNotVerified */
+                __('There is no login records.') ?></span></div>
+    <?php endif ?>
+</form>
